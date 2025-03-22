@@ -17,6 +17,7 @@ class UserController extends Controller
                 'name' => $user->name,
                 'email' => $user->email,
                 'phone' => $user->phone,
+                'sku' => $user->sku,
                 'role' => $user->roles->pluck('name')->toArray(),
                 'permission' => [],
             ];
@@ -69,8 +70,6 @@ class UserController extends Controller
         // Lấy dữ liệu đã validated
         $validatedData = $validator->validated();
 
-        // Tạo mã SKU tự động
-        $validatedData['sku'] = 'TRU-' . strtoupper(Str::random(8));
 
         // Tạo user
         $user = User::create($validatedData);
@@ -105,6 +104,7 @@ class UserController extends Controller
                     'name' => $user->name,
                     'email' => $user->email,
                     'phone' => $user->phone,
+                    'sku' => $user->sku,
                     'role' => $user->roles->pluck('name')->toArray(), // Lấy danh sách tên role
                     'permission' => []
                 ],

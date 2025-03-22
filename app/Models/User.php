@@ -9,11 +9,13 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Laratrust\Contracts\LaratrustUser;
 use Laratrust\Traits\HasRolesAndPermissions;
+use BinaryCats\Sku\HasSku;
+
 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
-    use HasApiTokens, HasFactory, Notifiable, HasRolesAndPermissions;
+    use HasApiTokens, HasFactory, Notifiable, HasRolesAndPermissions,  HasSku;
     /**
      * The attributes that are mass assignable.
      *
@@ -24,6 +26,7 @@ class User extends Authenticatable
         'email',
         'password',
         'phone',
+        'sku'
     ];
 
     /**
@@ -54,4 +57,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Role::class, 'role_user', 'user_id', 'role_id');
     }
+    protected $skuOptions = [
+        'source' => 'name', // Tạo SKU từ tên người dùng
+        'separator' => '-', // Dấu phân cách SKU
+        'unique' => true, // Đảm bảo SKU không trùng lặp
+    ];
 }
